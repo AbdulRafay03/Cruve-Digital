@@ -22,6 +22,11 @@ app = Flask(__name__)
 
 CORS(app, resources={r"/chat": {"origins": "*"}}) 
 
+
+@app.route('/api/healthcheck')
+def healthcheck():
+    return {"status": "ok"}, 200
+
 @app.route('/chat', methods=['POST'])
 def chat():
 
