@@ -77,6 +77,8 @@ def chat():
 
 if __name__ == '__main__':
 
+
+    
     pro_issue = Process_issue()
     res_par = SupportClassifier()
     res_gen = response_generator()

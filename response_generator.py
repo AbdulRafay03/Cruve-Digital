@@ -42,6 +42,7 @@ class response_generator:
             2. If NONE of the provided solutions are relevant, you MAY GENERATE a concise fallback step-by-step guide (3–6 steps). Only generate a fallback when absolutely necessary.
             3. Do NOT invent or add extra solutions if at least one provided solution applies.
             4. If you generate a fallback guide, set "used_fallback": true. Otherwise set "used_fallback": false.
+            5. If the customer's issue is irrelevant or outside the scope of technical support, Respond "The query is not related to technical support." and Category : None .
 
             Respond ONLY JSON format (no extra text) using exactly this shape:
             {{
