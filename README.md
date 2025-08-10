@@ -63,7 +63,7 @@ A user-friendly technical support chatbot that helps categorize issues and provi
 
 ## Hosting Setup
 
-This service is hosted on a dedicated server with separate subdomains for frontend and backend APIs:
+This service is hosted on my home server with separate subdomains for frontend and backend APIs:
 
 - **Frontend:** Accessible at [https://techsupport.rafayserver.online](https://techsupport.rafayserver.online)
 - **Backend API:** Accessible at [https://api.rafayserver.online](https://api.rafayserver.online)
