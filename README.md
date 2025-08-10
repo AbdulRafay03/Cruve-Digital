@@ -57,3 +57,36 @@ A user-friendly technical support chatbot that helps categorize issues and provi
 - Security – "I keep getting a pop-up saying my computer is infected."
 
 - Data/Files – "I accidentally deleted a folder and need to get it back."
+
+
+
+
+## Hosting Setup
+
+This service is hosted on a dedicated server with separate subdomains for frontend and backend APIs:
+
+- **Frontend:** Accessible at [https://techsupport.rafayserver.online](https://techsupport.rafayserver.online)
+- **Backend API:** Accessible at [https://api.rafayserver.online](https://api.rafayserver.online)
+
+### Trying the API
+
+You can test the backend API using `curl` or PowerShell:
+
+```powershell
+Invoke-RestMethod -Uri "https://api.rafayserver.online/chat" `
+  -Method POST `
+  -ContentType "application/json" `
+  -Body '{"query":"my wifi is not working"}'
+
+```
+
+#### Tools Used
+
+- **Docker & Docker Compose** — Containerized deployment for backend and frontend services  
+- **Nginx** — Reverse proxy server to route requests to frontend and backend subdomains  
+- **Cloudflare** — DNS management and SSL/TLS termination for secure, public access via subdomains  
+- **Flask** — Backend web framework powering the API  
+- **React & Vite** — Frontend framework and build tool for a fast, modern UI  
+- **Gunicorn** — WSGI HTTP server to serve the Flask backend in production  
+- **UFW (Uncomplicated Firewall)** — Managed firewall rules on the server (optionally disabled)  
+- **Curl & PowerShell** — Tools to test API endpoints from command line  
