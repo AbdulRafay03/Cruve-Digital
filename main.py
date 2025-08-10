@@ -5,9 +5,11 @@ import re
 from pydantic import BaseModel, ValidationError
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from dotenv import load_dotenv
 import os
 
-GEMINI_API = 'AIzaSyAru93hlGb1Pa5kicyZ1a58A4ZjCMxveok'
+load_dotenv()
+GEMINI_API = os.getenv('GEMINI_API')
 if not GEMINI_API:
     raise RuntimeError("Missing GEMINI API KEY envoirment variable")
 
