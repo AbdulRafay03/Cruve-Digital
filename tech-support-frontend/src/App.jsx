@@ -15,7 +15,7 @@ const ChatMessage = ({ message }) => {
             : 'bg-gray-700 text-gray-100'
         }`}
       >
-        <p className="text-sm font-medium">{text}</p>
+      <p className="text-sm font-medium whitespace-pre-line">{text}</p>
       </div>
     </div>
   );
@@ -92,7 +92,7 @@ const ChatWindow = ({ isOpen, onClose, isEmbedded = false }) => {
 
     try {
       // Send POST request to backend API
-      const response = await fetch('http://192.168.18.172:5173/chat', {
+      const response = await fetch('http://192.168.18.172:8000/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

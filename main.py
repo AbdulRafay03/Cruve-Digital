@@ -7,14 +7,14 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 
-GEMINI_API = os.getenv("GEMINI_API")
+GEMINI_API = 'AIzaSyAru93hlGb1Pa5kicyZ1a58A4ZjCMxveok'
 if not GEMINI_API:
     raise RuntimeError("Missing GEMINI API KEY envoirment variable")
 
 
 app = Flask(__name__)
 
-CORS(app,origins=["https://localhost:5173"])
+CORS(app, resources={r"/chat": {"origins": "*"}}) 
 
 
 
@@ -134,8 +134,8 @@ def parse_response(response):
         print("Closest Issue:", parsed.closestissue)
         print("Category:", parsed.category)
 
-        parsed.category = parsed.category.str.lower().str.strip()
-        parsed.closestissue = parsed.closestissue.str.lower().str.strip()
+        parsed.category = parsed.category.lower().strip()
+        parsed.closestissue = parsed.closestissue.lower().strip()
 
         return (parsed.closestissue,parsed.category)
     except json.JSONDecodeError as e:
@@ -146,6 +146,7 @@ def parse_response(response):
 
 
 def generate_solution(closestissue,category,CUSTOMER_ISSUE):
+    # print('here')
     df = pd.read_csv(r'tech_support_dataset.csv')
 
 
@@ -172,12 +173,12 @@ def generate_solution(closestissue,category,CUSTOMER_ISSUE):
     3. Do NOT invent or add extra solutions if at least one provided solution applies.
     4. If you generate a fallback guide, set "used_fallback": true. Otherwise set "used_fallback": false.
 
-    Respond ONLY in this format (no extra text) using exactly this shape:
-    
+    Respond ONLY JSON format (no extra text) using exactly this shape:
+    {{
     "category": "{category}",
     "used_fallback": <true|false>,
     "solution_steps": ["<step1>", "<step2>", "..."]
-    
+    }}
     """
 
     client = genai.Client(api_key= GEMINI_API)
@@ -190,27 +191,54 @@ def generate_solution(closestissue,category,CUSTOMER_ISSUE):
 
 @app.route('/chat', methods=['POST'])
 def chat():
+
     data = request.get_json()
     query = data.get('query','')
 
     if not query:
         return jsonify({'error':'No query provided'}) , 400
     
+    print(query)
     
     try:
         resp1 = process_issue(query)
         issue,category = parse_response(response=resp1)
         print(issue , category)
+
+
+        # print("Calling generate_solution with:", issue, category, query)
         resp2 = generate_solution(issue,category,query)
         print(resp2)
-        return jsonify({'response': resp2})
+        
+
+        try:
+            # Extract JSON part from resp2 if it's wrapped in code fences
+            match = re.search(r"\{[\s\S]*\}", resp2)
+            if match:
+                resp2 = match.group(0)
+
+            # Parse JSON safely
+            solution_data = json.loads(resp2.strip())
+
+            # Format output
+            steps_text = "\n".join(f"{i+1}. {step}" for i, step in enumerate(solution_data["solution_steps"]))
+            formatted_response = f"Category: {solution_data['category'].title()}\nSteps:\n{steps_text}"
+            return jsonify({"response": formatted_response})
+
+        except json.JSONDecodeError:
+            
+            return jsonify({"response": resp2})
+            
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return jsonify({'error' : str(e)} , 500)
+
 
 
 
 if __name__ == '__main__':
 
-    app.run(host='0.0.0.0' , port=5173)
+    app.run(host='0.0.0.0' , port=8000)
 
     
