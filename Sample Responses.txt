@@ -1,0 +1,40 @@
+Prompt = "my wifi is not working"
+Response = "Category: Network
+Steps:
+1. Restart your Wi-Fi router by unplugging it for 10-15 seconds, then plugging it back in.
+2. Restart your device (computer, phone, etc.) and try connecting to Wi-Fi again.
+3. Check if other devices can connect to the Wi-Fi. If not, the issue might be with your internet service.
+4. Verify that your device's Wi-Fi is turned on and you are selecting the correct network.
+5. Ensure you are entering the correct Wi-Fi password."
+
+-----------------------------------------------------------------------------------------------------------
+
+Prompt = "I forgot my password and can’t log in to my email."
+Response = "Category: Account
+Steps:
+1. Navigate to your email provider's login page (e.g., Gmail, Outlook, Yahoo).
+2. Look for and click on the 'Forgot password?' or 'Reset password' link, usually located near the login button.
+3. Enter your email address or username when prompted to initiate the password recovery process.
+4. Follow the on-screen instructions to verify your identity using a recovery method (e.g., an alternate email, phone number, or security questions).
+5. Once your identity is verified, you will be able to create a new, strong password for your account. Ensure you remember it for future logins."
+
+-----------------------------------------------------------------------------------------------------------
+
+Prompt= "My laptop keeps disconnecting from the Wi-Fi."
+Response = "Category: Network
+Steps:
+1. Restart your laptop.
+2. Restart your Wi-Fi router (unplug it for 30 seconds, then plug it back in).
+3. On your laptop, forget the Wi-Fi network and then reconnect to it.
+4. Update your Wi-Fi adapter drivers through Device Manager."
+
+-----------------------------------------------------------------------------------------------------------
+
+Prompt = "My computer takes forever to start up in the morning."
+Response = "Category: Performance
+Steps:
+1. Disable unnecessary startup programs to reduce boot time.
+2. Free up disk space by deleting temporary files and emptying your recycle bin.
+3. Perform a full scan for malware or viruses using reputable antivirus software.
+4. Ensure your operating system and drivers are updated to the latest versions."
+

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: .           # path where backend Dockerfile is located
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    environment:
+      - FLASK_APP=main.py
+      - FLASK_ENV=development
+      - GEMINI_API=${GEMINI_API}  # inject from your local .env
+    volumes:
+      - .:/app
+    depends_on:
+      - frontend
+
+  frontend:
+    build:
+      context: ./tech-support-frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./tech-support-frontend:/app
+      - /app/node_modules
