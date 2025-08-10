@@ -92,7 +92,7 @@ const ChatWindow = ({ isOpen, onClose, isEmbedded = false }) => {
 
     try {
       // Send POST request to backend API
-      const response = await fetch('http://192.168.18.172:8000/chat', {
+      const response = await fetch('http://localhost:8000/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
