@@ -5,9 +5,13 @@ import re
 from pydantic import BaseModel, ValidationError
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import os
+
+GEMINI_API = os.getenv("GEMINI_API")
+if not GEMINI_API:
+    raise RuntimeError("Missing GEMINI API KEY envoirment variable")
 
 
-GEMINI_API = 'AIzaSyAru93hlGb1Pa5kicyZ1a58A4ZjCMxveok'
 app = Flask(__name__)
 
 CORS(app,origins=["https://localhost:5173"])
@@ -130,6 +134,9 @@ def parse_response(response):
         print("Closest Issue:", parsed.closestissue)
         print("Category:", parsed.category)
 
+        parsed.category = parsed.category.str.lower().str.strip()
+        parsed.closestissue = parsed.closestissue.str.lower().str.strip()
+
         return (parsed.closestissue,parsed.category)
     except json.JSONDecodeError as e:
         print("Invalid JSON:", e)
@@ -140,6 +147,7 @@ def parse_response(response):
 
 def generate_solution(closestissue,category,CUSTOMER_ISSUE):
     df = pd.read_csv(r'tech_support_dataset.csv')
+
 
     if category in ['Software' ,'Account', 'Network' ,'Performance' ,'Hardware']:
         filtered = df[(df['Issue_Category'] == category) & (df['Customer_Issue'] == closestissue)]
@@ -171,13 +179,6 @@ def generate_solution(closestissue,category,CUSTOMER_ISSUE):
     "solution_steps": ["<step1>", "<step2>", "..."]
     
     """
-# {{
-#     "customer_issue": "{CUSTOMER_ISSUE}",
-#     "closestissue": "{closestissue}",
-#     "category": "{category}",
-#     "used_fallback": <true|false>,
-#     "solution_steps": ["<step1>", "<step2>", "..."]
-#     }}
 
     client = genai.Client(api_key= GEMINI_API)
 
